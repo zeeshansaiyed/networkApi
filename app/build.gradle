@@ -40,13 +40,37 @@ def status() {
     if (project.hasProperty('statusKey')) return rootProject.ext.statusKey else return "\"code\""
 }
 
+ext {
+    bintrayRepo = 'network_api'
+    bintrayName = 'com.zee.networkapi'
+
+    libraryName = 'network_api'
+
+    publishedGroupId = 'com.zee.networkapi'
+    artifact = 'network_api'
+    libraryVersion = project.versionName
+
+    libraryDescription = "Network api Library based on co-routines."
+
+    siteUrl = 'https://github.com/zeeshansaiyed/networkApi'
+    gitUrl = 'https://github.com/zeeshansaiyed/networkApi.git'
+
+    developerId = 'zeeshansaiyed'
+    developerName = 'Zeeshan Saiyed'
+    developerEmail = 'crazymind.zeeshan@rocketmail.com'
+
+    licenseName = 'GNU GENERAL PUBLIC LICENSE'
+    licenseUrl = 'https://www.gnu.org/licenses/gpl-3.0.en.html'
+    allLicenses = ["GPL-3.0"]
+}
+
 android {
     compileSdkVersion compileTargetSdkVersion()
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion compileTargetSdkVersion()
-        versionCode 1
-        versionName "1.0"
+        versionCode project.versionCode.toInteger()
+        versionName project.versionName
 
         buildConfigField "String", "WebServiceUrl", Api()
         buildConfigField "String", "message", message()
@@ -78,4 +102,14 @@ dependencies {
     //Co-routine
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutineVersion()}"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutineVersion()}"
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+if (project.rootProject.file('local.properties').exists()) {
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 }
